@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
 
             //this method will be running on UI thread
-            pdLoading.setMessage("\tLoading...Please wait a moment");
+            pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
             pdLoading.show();
         }
@@ -152,25 +154,44 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             //this method will be running on UI thread
+            String first = null, second = null;
+            if(result.equalsIgnoreCase("exception")){
+                first = new String("exception");
+            }
+            else {
+               // Log.d("result", result);
+                if (result.equalsIgnoreCase("false,")) {
+                    first = new String("false");
+                    //   Log.d("first", first);
+                } else {
+                    String[] newResult = result.split(",");
+                    if (newResult.length == 2) {
+                        first = newResult[0];
+                        second = newResult[1];
+                    }
+                }
+            }
 
             pdLoading.dismiss();
+           // Log.d("First", first);
 
-            if(result.equalsIgnoreCase("true"))
+            if(first.equalsIgnoreCase("true"))
             {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
 
                 Intent intent = new Intent(MainActivity.this,SuccessActivity.class);
+                intent.putExtra("plant_no",second);
                 startActivity(intent);
                 MainActivity.this.finish();
 
-            }else if (result.equalsIgnoreCase("false")){
+            }else if (first.equalsIgnoreCase("false")){
 
                 // If username and password does not match display a error message
                 Toast.makeText(MainActivity.this, "Invalid email or password", Toast.LENGTH_LONG).show();
 
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+            }else if(first.equalsIgnoreCase("exception") || first.equalsIgnoreCase("unsuccessful")) {
 
                 Toast.makeText(MainActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
 
