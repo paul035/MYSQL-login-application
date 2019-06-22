@@ -104,6 +104,8 @@ public class SuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_success);
 
+
+
         Intent intent = getIntent();
         plant_no = intent.getStringExtra("plant_no");
         // Log.d("plantno", String.valueOf(plant_no));
@@ -350,7 +352,7 @@ public class SuccessActivity extends AppCompatActivity {
                         data5 = json_data.getString("data5");
 
 
-                       /* data11.setText(data1);
+                       /*data11.setText(data1);
                         data22.setText(data2);
                         data33.setText(data3);
                         data44.setText(data4);

@@ -1,7 +1,9 @@
 package com.example.android.sqllogin;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -23,10 +25,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.StringTokenizer;
 
+import static java.security.AccessController.getContext;
+
 public class MainActivity extends AppCompatActivity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     private EditText etEmail;
@@ -181,10 +186,14 @@ public class MainActivity extends AppCompatActivity {
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
 
-                Intent intent = new Intent(MainActivity.this,SuccessActivity.class);
+                /*Intent intent = new Intent(MainActivity.this,SuccessActivity.class);
                 intent.putExtra("plant_no",second);
                 startActivity(intent);
-                MainActivity.this.finish();
+                MainActivity.this.finish();*/
+
+                new AsyncRetrieve(second, MainActivity.this).execute();
+
+
 
             }else if (first.equalsIgnoreCase("false")){
 

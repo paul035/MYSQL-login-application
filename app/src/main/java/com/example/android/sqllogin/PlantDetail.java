@@ -8,6 +8,7 @@ public class PlantDetail {
     private String data4;
     private String data5;
 
+
     /*public PlantDetail(String data1, String data2, String data3, String data4, String data5) {
         this.data1 = data1;
         this.data2 = data2;
@@ -35,4 +36,5 @@ public class PlantDetail {
     public String getData5() {
         return data5;
     }*/
+
 }
